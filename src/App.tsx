@@ -20,12 +20,6 @@ const App: React.FC = () => {
       <ApolloProvider client={client}>
         <Navbar />
         <Hero />
-        <CharacterFilter
-        filterCharacters={() => console.log("hello from filter")}
-        removeFilter={() => {
-          console.log("Remove filter")
-        }}
-        />
         <Route exact path="/" component={Body} />
         <Route exact path="/character/:id" component={AboutCharacter} />
       </ApolloProvider >

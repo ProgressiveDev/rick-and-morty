@@ -4,6 +4,7 @@ import { gql } from "apollo-boost";
 import { useQuery } from "@apollo/react-hooks";
 import { Link } from "react-router-dom";
 import { Waypoint } from "react-waypoint";
+import { CharacterFilter } from './CharacterFilter';
 
 interface CharacterData {
   characters: Characters;
@@ -50,6 +51,34 @@ export const Body = (handleClick: CardItemProp, about: string) => {
 
   const characters = loading || !data ? [] : data.characters.results;
 
+  const selectedFilters = [];
+  const filterOptions = [...new Set(characters.map(item => item.species))];
+
+  const displayCharacters = () => {
+    return (
+      characters.map(item => {
+        return (
+          <Card key={item.id} style={{ width: "15rem", margin: 20 }}>
+            <Card.Img variant="top" src={item.image} />
+            <Card.Body>
+              <Card.Title>{item.name}</Card.Title>
+              <Card.Text>
+                Race: {item.species}
+              </Card.Text>
+              <Link
+                className="btn btn-primary"
+                to={`/character/${item.id}`}
+              >
+                Visit profile
+            </Link>
+            </Card.Body>
+          </Card>
+        );
+      })
+    )
+  }
+
+
   const loadResultsOnScroll = () => {
     if (characters.length < 20) return;
     fetchMore({
@@ -74,26 +103,15 @@ export const Body = (handleClick: CardItemProp, about: string) => {
 
   return (
     <Container>
+      <CharacterFilter
+        filterOptions={filterOptions}
+        filterCharacters={() => console.log("hello from filter")}
+        removeFilter={() => console.log("Remove filter")}
+      />
       <Row className="justify-content-center">
-        {characters.map(item => {
-          return (
-            <Card key={item.id} style={{ width: "15rem", margin: 20 }}>
-              <Card.Img variant="top" src={item.image} />
-              <Card.Body>
-                <Card.Title>{item.name}</Card.Title>
-                <Card.Text>
-                  Race: {item.species}
-                </Card.Text>
-                  <Link
-                    className="btn btn-primary"
-                    to={`/character/${item.id}`}
-                  >
-                    Visit profile
-                  </Link>
-              </Card.Body>
-            </Card>
-          );
-        })}
+        {
+          displayCharacters
+        }
       </Row>
       <Waypoint onEnter={loadResultsOnScroll} bottomOffset="-200px"></Waypoint>
     </Container>
