@@ -71,5 +71,5 @@ export function Hero() {
         </Row>
       </Container>
     </Container>
-  );
+  )
 }

@@ -6,7 +6,7 @@ import { Navbar } from "./Components/Navbar"
 import { Body } from "./Components/Body";
 import { ApolloProvider } from '@apollo/react-hooks';
 import ApolloClient from 'apollo-boost';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import { AboutCharacter } from "./Components/AboutCharacter";
 import { CharacterFilter } from './Components/CharacterFilter';
 
