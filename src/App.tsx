@@ -1,25 +1,35 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import "./custom-theme.scss"
+import { Hero } from "./Components/Hero"
+import { Navbar } from "./Components/Navbar"
+import { Body } from "./Components/Body";
+import { ApolloProvider } from '@apollo/react-hooks';
+import ApolloClient from 'apollo-boost';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { AboutCharacter } from "./Components/AboutCharacter";
+import { CharacterFilter } from './Components/CharacterFilter';
+
+const client = new ApolloClient({
+  uri: 'https://rickandmortyapi.com/graphql/',
+});
 
 const App: React.FC = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <ApolloProvider client={client}>
+        <Navbar />
+        <Hero />
+        <CharacterFilter
+        filterCharacters={() => console.log("hello from filter")}
+        removeFilter={() => {
+          console.log("Remove filter")
+        }}
+        />
+        <Route exact path="/" component={Body} />
+        <Route exact path="/character/:id" component={AboutCharacter} />
+      </ApolloProvider >
+    </Router>
   );
 }
 
